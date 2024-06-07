@@ -13,6 +13,7 @@ const btnNew = document.querySelector('.btn--new'),
     btnHold = document.querySelector('.btn--hold');
 
 let currentScore = 0;
+const totalScores = [0,0];
 
 zeroScoreEl.textContent = 0;
 firstScoreEl.textContent = 0;
@@ -26,15 +27,34 @@ btnRoll.addEventListener('click', ev => {
 
     if (rolledDice !== 1) {
         currentScore += rolledDice;
-        playerZeroEl.classList.contains('player--active')
-            ? zeroCurrentEl.textContent = currentScore
-            : firstCurrentEL.textContent = currentScore;
+        setCurrentScoreToActivePlayer();
     } else {
-        currentScore = 0;
-        playerZeroEl.classList.contains('player--active')
-            ? zeroCurrentEl.textContent = currentScore
-            : firstCurrentEL.textContent = currentScore;
-        playerZeroEl.classList.toggle('player--active')
-        playerFirstEl.classList.toggle('player--active')
+        switchPlayer()
     }
 });
+
+btnHold.addEventListener('click', ev => {
+    playerZeroEl.classList.contains('player--active')
+        ? totalScores[0] += currentScore
+        : totalScores[1] += currentScore;
+    zeroScoreEl.textContent = totalScores[0];
+    firstScoreEl.textContent = totalScores[1];
+    switchPlayer()
+});
+
+function switchPlayer() {
+    currentScore = 0;
+    setCurrentScoreToActivePlayer();
+    toggleActiveClass();
+}
+
+function toggleActiveClass() {
+    playerZeroEl.classList.toggle('player--active');
+    playerFirstEl.classList.toggle('player--active');
+}
+
+function setCurrentScoreToActivePlayer() {
+    playerZeroEl.classList.contains('player--active')
+        ? zeroCurrentEl.textContent = currentScore
+        : firstCurrentEL.textContent = currentScore;
+}
