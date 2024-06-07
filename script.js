@@ -1,4 +1,24 @@
 "use strict";
+window.addEventListener('load', checkOrientation);
+window.addEventListener('resize', checkOrientation);
+
+function checkOrientation() {
+    const rotateInfo = document.querySelector('.rotate-info');
+    if (isMobile() && isPortrait()) {
+        rotateInfo.style.display = 'flex';
+    } else {
+        rotateInfo.style.display = 'none';
+    }
+}
+
+function isMobile() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+}
+
+function isPortrait() {
+    return window.matchMedia("(orientation: portrait)").matches;
+}
+
 //modal
 const modal = document.querySelector('.modal'),
     overlay = document.querySelector('.overlay'),
